@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <script src="../build/react.development.js"></script>
+  <script src="../build/react-dom.development.js"></script>
+  <script src="../build/babel.min.js"></script>
+</head>
+
+<body>
+  <div id="example"></div>
+  <!-- React 为每个状态都提供了两种处理函数，will 函数在进入状态之前调用，did 函数在进入状态之后调用，三种状态共计五种处理函数。 -->
+  <!-- componentWillMount()
+        componentDidMount()
+        componentWillUpdate(object nextProps, object nextState)
+        componentDidUpdate(object prevProps, object prevState)
+        componentWilUlnmount() -->
+  <!-- React 还提供两种特殊状态的处理函数。
+
+    componentWillReceiveProps(object nextProps)：已加载组件收到新的参数时调用
+    shouldComponentUpdate(object nextProps, object nextState)：组件判断是否重新渲染时调用 -->
+  <script type="text/babel">
+    class Hello extends React.Component {
+      constructor(props) {
+        super(props)
+        this.state = {
+          opacity: 1.0
+        };
+      }
+
+      componentDidMount() {
+        this.timer = setInterval(function () {
+          var opacity = this.state.opacity;
+          opacity -= .05;
+          if (opacity < 0.1) {
+            opacity = 1.0;
+          }
+          this.setState({
+            opacity: opacity
+          });
+        }.bind(this), 100);
+      }
+
+      render() {
+        return (
+          <div style={{ opacity: this.state.opacity }}>
+            Hello {this.props.name}
+          </div>
+        );
+        // 组件的style属性的设置方式也值得注意，不能写成style="opacity:{this.state.opacity};"
+      }
+    }
+
+    ReactDOM.render(
+      <Hello name="world" />,
+      document.getElementById('example')
+    );
+  </script>
+</body>
+
+</html>
